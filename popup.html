@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouTube Focus Board</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- ─── Header ──────────────────────────────────────────────────────── -->
+  <header class="header">
+    <div class="header-brand">
+      <div class="brand-icon">🎯</div>
+      <div class="brand-text">
+        <span class="brand-name">YouTube Focus Board</span>
+        <span class="brand-tagline">Stay intentional</span>
+      </div>
+    </div>
+    <button class="icon-btn" id="btn-options" title="Open Dashboard">⚙️</button>
+  </header>
+
+  <!-- ─── Session Status ───────────────────────────────────────────────── -->
+  <section class="card session-card" id="session-section">
+    <div class="session-no-active" id="session-no-active">
+      <p class="muted-text">No active session</p>
+      <button class="btn btn-primary btn-sm" id="btn-start-session">Start a Session</button>
+    </div>
+
+    <div class="session-active hidden" id="session-active">
+      <div class="session-header">
+        <div class="session-badge" id="session-badge">📚 Study</div>
+        <button class="btn btn-danger btn-xs" id="btn-end-session">End Session</button>
+      </div>
+      <p class="session-reason" id="session-reason">Studying thermodynamics</p>
+      <div class="session-timer hidden" id="session-timer">
+        <span class="timer-icon">⏱</span>
+        <span id="timer-value">60:00</span> remaining
+      </div>
+    </div>
+
+    <!-- Inline gate (shown when no session) -->
+    <div class="inline-gate hidden" id="inline-gate">
+      <input type="text" class="gate-input" id="gate-input" placeholder="What are you here for?" maxlength="120" autocomplete="off" />
+      <div class="gate-error hidden" id="gate-error">Please enter a reason.</div>
+      <div class="gate-buttons">
+        <button class="btn btn-primary" id="gate-study-btn">📚 Study Session</button>
+        <button class="btn btn-ghost" id="gate-fun-btn">🎬 Entertainment (60 min)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Watch Time ───────────────────────────────────────────────────── -->
+  <section class="card" id="watchtime-card">
+    <div class="card-header">
+      <span class="card-title">⏳ Today's Watch Time</span>
+      <span class="card-date" id="today-date"></span>
+    </div>
+    <div class="watchtime-grid">
+      <div class="wt-stat">
+        <span class="wt-value" id="wt-total">0m</span>
+        <span class="wt-label">Total</span>
+      </div>
+      <div class="wt-stat wt-study">
+        <span class="wt-value" id="wt-study">0m</span>
+        <span class="wt-label">Study</span>
+      </div>
+      <div class="wt-stat wt-ent">
+        <span class="wt-value" id="wt-ent">0m</span>
+        <span class="wt-label">Entertainment</span>
+      </div>
+    </div>
+    <div class="goal-row">
+      <span class="goal-label">Daily Goal</span>
+      <div class="progress-bar">
+        <div class="progress-fill" id="goal-progress" style="width: 0%"></div>
+      </div>
+      <span class="goal-value" id="goal-value">0 / 120m</span>
+    </div>
+  </section>
+
+  <!-- ─── Distraction Controls ─────────────────────────────────────────── -->
+  <section class="card">
+    <div class="card-header">
+      <span class="card-title">🛡️ Hide Distractions</span>
+    </div>
+    <div class="toggles">
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <span class="toggle-label">Hide Shorts</span>
+          <span class="toggle-desc">Removes Shorts from all pages</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toggle-shorts" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <span class="toggle-label">Hide Recommendations</span>
+          <span class="toggle-desc">Removes sidebar & homepage feed</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toggle-recommendations" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <span class="toggle-label">Hide Comments</span>
+          <span class="toggle-desc">Removes comment section</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toggle-comments" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Study List ───────────────────────────────────────────────────── -->
+  <section class="card">
+    <div class="card-header">
+      <span class="card-title">📚 Study List</span>
+      <span class="badge" id="study-list-count">0</span>
+    </div>
+
+    <div class="add-video-row">
+      <button class="btn btn-primary btn-sm" id="btn-add-current">+ Add Current Video</button>
+      <button class="btn btn-ghost btn-sm" id="btn-add-url">+ Add by URL</button>
+    </div>
+
+    <div class="add-url-row hidden" id="add-url-row">
+      <input type="text" class="url-input" id="url-input" placeholder="Paste YouTube URL…" autocomplete="off" />
+      <button class="btn btn-primary btn-xs" id="btn-url-submit">Add</button>
+      <button class="btn btn-ghost btn-xs" id="btn-url-cancel">✕</button>
+    </div>
+
+    <div class="study-list" id="study-list">
+      <p class="empty-state">No videos yet. Add videos to start your study list.</p>
+    </div>
+  </section>
+
+  <!-- ─── Timestamp Notes ──────────────────────────────────────────────── -->
+  <section class="card">
+    <div class="card-header">
+      <span class="card-title">📝 Timestamp Notes</span>
+      <span class="badge" id="notes-count">0</span>
+    </div>
+
+    <div class="add-note-row">
+      <input type="text" class="note-input" id="note-input" placeholder="Add a note for this moment…" maxlength="200" autocomplete="off" />
+      <button class="btn btn-primary btn-sm" id="btn-save-note">Save Note</button>
+    </div>
+    <p class="note-hint" id="note-hint">Navigate to a YouTube video to save timestamp notes.</p>
+
+    <div class="notes-list" id="notes-list">
+      <p class="empty-state">No notes yet.</p>
+    </div>
+  </section>
+
+  <div class="footer">
+    <button class="text-btn" id="btn-open-dashboard">Open Full Dashboard →</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

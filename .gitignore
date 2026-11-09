@@ -1,0 +1,16 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node (only used for icon generation helper)
+node_modules/
+npm-debug.log*
+
+# Editor directories
+.vscode/
+.idea/
+
+# Temp / build artifacts
+*.log
+*.tmp

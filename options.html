@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouTube Focus Board – Dashboard</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+
+  <!-- ─── Sidebar ─────────────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">🎯</div>
+      <div>
+        <div class="brand-name">Focus Board</div>
+        <div class="brand-sub">Dashboard</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" data-tab="overview">📊 Overview</button>
+      <button class="nav-btn" data-tab="study-list">📚 Study List</button>
+      <button class="nav-btn" data-tab="notes">📝 Notes</button>
+      <button class="nav-btn" data-tab="history">🕑 Session History</button>
+      <button class="nav-btn" data-tab="settings">⚙️ Settings</button>
+    </nav>
+  </aside>
+
+  <!-- ─── Main Content ─────────────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- ── Overview Tab ──────────────────────────────────────────────── -->
+    <div class="tab-panel active" id="tab-overview">
+      <div class="page-header">
+        <h1>Overview</h1>
+        <p class="page-desc">Your daily focus summary</p>
+      </div>
+
+      <!-- Session Status -->
+      <div class="card session-overview-card" id="overview-session-card">
+        <div class="session-no-session" id="ov-no-session">
+          <div class="ov-empty-icon">🎯</div>
+          <p>No active session. Start one from the extension popup.</p>
+        </div>
+        <div class="session-active-overview hidden" id="ov-active-session">
+          <div class="ov-session-left">
+            <div class="ov-session-badge" id="ov-session-badge">📚 Study</div>
+            <div class="ov-session-reason" id="ov-session-reason"></div>
+            <div class="ov-session-started" id="ov-session-started"></div>
+          </div>
+          <div class="ov-session-right">
+            <div class="ov-session-timer hidden" id="ov-session-timer">
+              <div class="timer-ring-label">Remaining</div>
+              <div class="timer-value" id="ov-timer-value">60:00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Watch Time Today -->
+      <h2 class="section-title">Today's Watch Time</h2>
+      <div class="wt-cards">
+        <div class="wt-card">
+          <div class="wt-icon">⏱</div>
+          <div class="wt-num" id="ov-wt-total">0</div>
+          <div class="wt-lbl">Total</div>
+        </div>
+        <div class="wt-card study-card">
+          <div class="wt-icon">📚</div>
+          <div class="wt-num" id="ov-wt-study">0</div>
+          <div class="wt-lbl">Study</div>
+        </div>
+        <div class="wt-card ent-card">
+          <div class="wt-icon">🎬</div>
+          <div class="wt-num" id="ov-wt-ent">0</div>
+          <div class="wt-lbl">Entertainment</div>
+        </div>
+      </div>
+
+      <div class="goal-section">
+        <div class="goal-header">
+          <span>Daily Study Goal</span>
+          <span id="ov-goal-label">0 / 120 min</span>
+        </div>
+        <div class="big-progress">
+          <div class="big-progress-fill" id="ov-goal-bar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- 7-day chart -->
+      <h2 class="section-title">Last 7 Days</h2>
+      <div class="chart-container" id="weekly-chart">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <!-- ── Study List Tab ─────────────────────────────────────────────── -->
+    <div class="tab-panel" id="tab-study-list">
+      <div class="page-header">
+        <h1>Study List</h1>
+        <p class="page-desc">Your saved learning videos</p>
+      </div>
+
+      <div class="toolbar">
+        <input type="text" class="search-input" id="sl-search" placeholder="Search videos…" />
+        <button class="btn btn-ghost btn-sm" id="sl-clear-completed">Clear Completed</button>
+      </div>
+
+      <div id="sl-container">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <!-- ── Notes Tab ──────────────────────────────────────────────────── -->
+    <div class="tab-panel" id="tab-notes">
+      <div class="page-header">
+        <h1>Timestamp Notes</h1>
+        <p class="page-desc">Notes linked to exact video moments</p>
+      </div>
+
+      <div class="toolbar">
+        <input type="text" class="search-input" id="notes-search" placeholder="Search notes…" />
+        <button class="btn btn-ghost btn-sm" id="notes-clear-all">Clear All Notes</button>
+      </div>
+
+      <div id="notes-container">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <!-- ── Session History Tab ────────────────────────────────────────── -->
+    <div class="tab-panel" id="tab-history">
+      <div class="page-header">
+        <h1>Session History</h1>
+        <p class="page-desc">Past focus and entertainment sessions</p>
+      </div>
+
+      <div id="history-container">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <!-- ── Settings Tab ──────────────────────────────────────────────── -->
+    <div class="tab-panel" id="tab-settings">
+      <div class="page-header">
+        <h1>Settings</h1>
+        <p class="page-desc">Customize your focus experience</p>
+      </div>
+
+      <div class="settings-grid">
+        <!-- Distraction Controls -->
+        <div class="card settings-card">
+          <h3 class="settings-section-title">🛡️ Distraction Filters</h3>
+          <div class="settings-row">
+            <div class="settings-info">
+              <span class="settings-label">Hide YouTube Shorts</span>
+              <span class="settings-desc">Remove Shorts from all YouTube pages and navigation</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="s-hide-shorts" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <div class="settings-info">
+              <span class="settings-label">Hide Recommendations</span>
+              <span class="settings-desc">Remove sidebar recommendations and homepage feed</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="s-hide-recs" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <div class="settings-info">
+              <span class="settings-label">Hide Comments</span>
+              <span class="settings-desc">Remove the comments section on all videos</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="s-hide-comments" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Goals -->
+        <div class="card settings-card">
+          <h3 class="settings-section-title">🎯 Daily Goals</h3>
+          <div class="settings-row">
+            <div class="settings-info">
+              <span class="settings-label">Daily Study Goal (minutes)</span>
+              <span class="settings-desc">Set your target study watch time for each day</span>
+            </div>
+            <input type="number" class="number-input" id="s-daily-goal" min="5" max="480" value="120" />
+          </div>
+        </div>
+
+        <!-- Data Management -->
+        <div class="card settings-card">
+          <h3 class="settings-section-title">🗂️ Data Management</h3>
+          <div class="settings-row">
+            <div class="settings-info">
+              <span class="settings-label">Export Data</span>
+              <span class="settings-desc">Download all your data as a JSON file</span>
+            </div>
+            <button class="btn btn-ghost btn-sm" id="s-export">Export</button>
+          </div>
+          <div class="settings-row">
+            <div class="settings-info">
+              <span class="settings-label">Clear Watch Time History</span>
+              <span class="settings-desc">Remove all historical watch time data</span>
+            </div>
+            <button class="btn btn-danger btn-sm" id="s-clear-wt">Clear</button>
+          </div>
+          <div class="settings-row">
+            <div class="settings-info">
+              <span class="settings-label">Reset All Data</span>
+              <span class="settings-desc">Delete all study list, notes, and history data</span>
+            </div>
+            <button class="btn btn-danger btn-sm" id="s-reset-all">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="options.js"></script>
+</body>
+</html>
